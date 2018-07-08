@@ -1,0 +1,56 @@
+
+
+
+
+spring:
+  application:
+    name: netflix-service-${demo.service-number}
+  boot:
+    admin:
+      client:
+        url: http://localhost:8086
+        password: password
+        username: admin
+
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    eureka-server-total-connections: 200
+    service-url:
+      defaultZone: http://eureka:password@${EUREKA_SERVICE_URL:localhost}:8761/eureka
+    registry-fetch-interval-seconds: 5
+
+  instance:
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    status-page-url-path: /actuator/info
+    home-page-url-path: /swagger-ui.html
+
+
+# If Spring Security is on the classpath and no other WebSecurityConfigurerAdapter is present, the actuators are secured by Spring Boot auto-config.
+
+management:
+  endpoints:
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  info:
+    git:
+      mode: full
+server:
+  port: 8090
+
+logging:
+  level:
+    ROOT: info
+
+
+demo:
+  backend-info:
+    service-name: localhost:8090
+  service-number: ${random.int(5)}
